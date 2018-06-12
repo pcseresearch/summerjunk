@@ -1,0 +1,176 @@
+void file_graphs
+{
+//   example of macro to read data from an ascii file and
+//   create a root file with an histogram and an ntuple.
+    
+       gROOT->Reset();
+       //changed
+       // Int_t n = 50;
+       Char_t name[100];
+       FILE *fp; // = fopen("0001_0_1_2.txt", "r");
+
+	TCanvas *c1 = new TCanvas("c1","X Distribution", 200, 10, 700, 500);
+         c1->SetFillColor(42);
+         c1->SetGrid();
+
+       TCanvas *c2 = new TCanvas("c2","Canvas2 Distribution", 200, 10, 700, 500);
+       c2->SetFillColor(42);
+       c2->SetGrid();
+
+       TCanvas *c3 = new TCanvas("c3","Canvas3 Distribution", 200, 10, 700, 500);
+       c3->SetFillColor(42);
+       c3->SetGrid();
+
+       TCanvas *c4 = new TCanvas("c4","Canvas4 Distribution", 200, 10, 700, 500);
+       c4->SetFillColor(42);
+       c4->SetGrid();
+
+       TCanvas *c5 = new TCanvas("c5","Canvas5 Distribution", 200, 10, 700, 500);
+       c5->SetFillColor(42);
+       c5->SetGrid();
+
+       TH1D *h1 = new TH1D("h1","x distribution",1000,0.000,1.000);
+       TH1D *h2 = new TH1D("h21","x distribution",1000,0.0,1.0);
+       TH1D *h3 = new TH1D("h3","x distribution",1000,0.0,1.0);
+       TH1D *h4 = new TH1D("h4","x distribution",1000,0.0,1.0);
+       TH1D *h5 = new TH1D("h5","x distribution",1000,0.0,1.0);
+ 
+
+       for(Int_t i=1;i<6;i++)
+	 {
+
+	   //h[i] = new TH1F("h1","x distribution",10000,0.0,1.0);
+	   sprintf(name, "0001_15_trial%d_2.txt",i);
+	   fp = fopen(name, "r");
+
+	Float_t x,y;
+       Int_t ncols;
+       Int_t nlines = 0;
+       TFile *f = new TFile("junk2.root","RECREATE");
+
+// TH2F *h2 = new TH2F("h2","xy distribution",10000,0,10000,10000,0.0,1.0);
+       TNtuple *ntuple = new TNtuple("ntuple","data from ascii file","x:y");
+	 
+       while (1) {
+       ncols = fscanf(fp,"%f %f",&x, &y);
+       if (ncols < 0) break;    
+       if (nlines < 5) printf("x=%8f, y=%8f \n",x,y);
+       if(x>1000 && x<=9000) 
+	 {
+	 if(i==1) h1->Fill(y);
+	       // h2->Fill(y);
+               ntuple->Fill(x,y);
+               nlines++;
+	       //) h2->Fill(y);
+	 if(i==2) h2->Fill(y);
+	       ntuple->Fill(x,y);
+               nlines++;
+	 if(i==3) h3->Fill(y);
+	       // h2->Fill(x,y);
+               ntuple->Fill(x,y);
+               nlines++;
+	       //) h2->Fill(y);
+	 if(i==4) h4->Fill(y);
+	       ntuple->Fill(x,y);
+               nlines++;
+	 if(i==5) h5->Fill(y);
+	       // h2->Fill(x,y);
+               ntuple->Fill(x,y);
+               nlines++;
+	       //) h2->Fill(y);
+	 }     
+       }
+      
+	 
+      printf(" found %d points\n",nlines);
+                                                               
+      fclose(fp);
+	 
+      if(i==1)
+	{
+	       c1->cd();
+	       
+	      
+	       Double_t h1mean=h1->GetMean();
+		Int_t xmin = h1mean*1000-10;
+		Int_t xmax = h1mean*1000+10;
+		cout << "H1 mean = " << h1mean << endl;
+		h1->GetXaxis()->SetRange(xmin,xmax);
+		 h1->Fit("gaus","V","El",0.09,0.11);
+
+		//TF1 *fit1 = new TF1("m1","gaus",h1mean-0.002,h1mean+0.002);
+
+		 // h1->Fit(fit1,"R");
+		gStyle->SetOptFit(0011);
+	        h1->Draw();
+	}
+
+      if(i==2)
+	{
+	  c2->cd();
+	  	       Double_t h2mean=h2->GetMean();
+		Int_t xmin2 = h2mean*1000-10;
+		Int_t xmax2 = h2mean*1000+10;
+		cout << "H2 mean = " << h2mean << endl;
+		h2->GetXaxis()->SetRange(xmin2,xmax2);
+	        h2->Fit("gaus","V","El",0.09,0.11);
+
+		//	TF1 *fit2 = new TF1("m2","gaus",h2mean-0.002,h2mean+0.002);
+
+		//h2->Fit(fit2,"R");
+		h2->Draw();
+	}
+      if(i==3)
+	{
+	  c3->cd();
+	       Double_t h3mean=h3->GetMean();
+		Int_t xmin3 = h3mean*1000-10;
+		Int_t xmax3 = h3mean*1000+10;
+		cout << "H3 mean = " << h3mean << endl;
+		h3->GetXaxis()->SetRange(xmin3,xmax3);
+	        h3->Fit("gaus","V","El",0.09,0.11);
+
+		//TF1 *fit3 = new TF1("m3","gaus",h3mean-0.002,h3mean+0.002);
+
+		//h3->Fit(fit3,"R");
+		h3->Draw();
+	}
+
+      if(i==4)
+	{
+	  c4->cd();
+	       Double_t h4mean=h4->GetMean();
+		Int_t xmin4 = h4mean*1000-10;
+		Int_t xmax4 = h4mean*1000+10;
+		cout << "H4 mean = " << h4mean << endl;
+		h4->GetXaxis()->SetRange(xmin,xmax);
+		// h1->Fit("gaus","V","El",0.09,0.11);
+
+		TF1 *fit4 = new TF1("m4","gaus",h4mean-0.002,h4mean+0.002);
+
+	        h4->Fit(fit4,"R");
+		h4->Draw();
+	}
+      if(i==5)
+	{
+	  c5->cd();
+	       Double_t h5mean=h5->GetMean();
+		Int_t xmin5 = h5mean*1000-10;
+		Int_t xmax5 = h5mean*1000+10;
+		cout << "H5 mean = " << h5mean << endl;
+		h5->GetXaxis()->SetRange(xmin5,xmax5);
+		// h1->Fit("gaus","V","El",0.09,0.11);
+
+		TF1 *fit5 = new TF1("m5","gaus",h5mean-0.002,h5mean+0.002);
+
+	        h5->Fit(fit5,"R");
+		h5->Draw();
+	}
+
+      // h2->Draw();
+
+      f->Write();
+	 }
+	 
+}
+

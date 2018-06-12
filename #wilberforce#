@@ -1,0 +1,25 @@
+el[1]; 
+      v[2] += tau*accel[2]; 
+      r[1] += tau*v[1];             // Euler-Cromer step
+      r[2] += tau*v[2];             
+      time += tau;  
+    }
+    else if( method == 3 ) {
+      rk4( state, nState, time, tau, gravrk, param );
+      r[1] = state[1]; r[2] = state[2];   // 4th order Runge-Kutta
+      v[1] = state[3]; v[2t i;
+//  for( i=1; i<=nStep; i++ ) {
+//    rplotOut << thplot[i] << " " << rplot[i] << endl;
+//    tplotOut << tplot[i] << " " << rplot[i] << endl;
+//    energyOut << tplot[i] << " " << potential[i]+kinetic[i] << endl;
+//    potentialOut << tplot[i] << " " << potential[i] << endl;
+//    kineticOut << tplot[i] << " " << kinetic[i] << endl;
+//  }
+
+   const Int_t n = nStep;
+   Double_t xr[n], yr[n];
+   Double_t xt[n], yt[n];
+   Double_t xe[n], ye[n];
+   Double_t xk[n], yk[n];
+   Double_t xp[n], yp[n];
+   Int_t i=0;

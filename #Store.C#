@@ -1,0 +1,4 @@
+  for(npart=20;npart<3000;npart=npart+20)
+    {
+      temperatures[counter]=npart;
+      cout<<"Number of particles is at: "<<npart<<endl;

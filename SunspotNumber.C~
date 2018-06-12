@@ -1,0 +1,21 @@
+void SunspotNumber()
+{
+  const Int_t day = 56;
+  Double_t days[56];
+  Double_t sunspotNum[56] = {0,29,26,36,0,0,0,0,0,0,56,50,54,0,0,0,75,64,49,0,0,0,52,78,95,0,0,0,0,79,82,68,0,0,0,0,49,60,35,0,0,0,0,27,39,26,0,0,0,0,39,65,50,0,0,0}
+
+  for(int i=0;i<day;i++)
+    {
+      days[i]=i;
+    }
+  
+  TGraph* gr = new TGraph(day,days,sunspotNum);
+  gr->SetMarkerColor(kBlue);
+  gr->SetMarkerSyle(22);
+  gr->SetTitle("Sunspot Number by Day");
+  gr->GetXaxis()->SetTitle("Date");
+  gr->GetYaxis()->SetTitle("Sunspot Number");
+
+  gr->Draw("AP");
+  
+}

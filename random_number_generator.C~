@@ -1,0 +1,22 @@
+#include <iostream>
+#include <fstream>
+#include "math.h"
+
+using namspace std;
+
+void random_number_generator()
+{
+
+  TCanvas *c1 = new TCanvas("c1","Uniform Random",200,10,700,500);
+  
+
+  TH1D *h1= new TH1D("Uniform Random","Uniform Random",100,-1,2);
+  h1->SetFillColor(38);
+  
+  for(int i=0;i<10000;i++)
+    {
+      TRandom3 *rnum=new TRandom3();
+      h1->Fill(rnum);
+    }  
+  h1->Draw();
+}
